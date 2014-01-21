@@ -1,4 +1,5 @@
 import json
+import os
 import redis
 import requests
 from flask import Flask, Response, send_file
@@ -13,7 +14,7 @@ pubkeyval = KeyValStore(redis.StrictRedis(
     host='spadefish.redistogo.com', 
     port=9148, 
     db=0,
-    password=''),
+    password=os.environ('REDISKEY')),
     'recipefe')
 
 GIT_REPO = 'https://api.github.com/repos/dps/recipes'
