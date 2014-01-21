@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 def parse_list(parent, base_url):
   res = []
   for node in parent.children:
-    print node.name
     if node.name == 'li':
       obj = {}
       obj['text'] = node.text
@@ -17,7 +16,6 @@ def parse_list(parent, base_url):
 def parse_recipe_markdown(md, obj, base_url):
   html = markdown.markdown(md)
   soup = BeautifulSoup(html)
-  print soup
   if soup.img:
     obj['img'] = base_url + soup.img.get('src')
   parsing = 'title'
