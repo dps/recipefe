@@ -25,7 +25,7 @@ class KeyValStore(object):
   def _key_recipe(self, recipe, key):
   	return self._instance + ':recipe:' + str(recipe) + ':' + key
 
-  def list(self):
+  def list(self, verbose=False):
     if not self._redis.exists(self._instance + ':list'):
       for recipe in self._ghb.list():
         name = recipe['name']
@@ -42,10 +42,23 @@ class KeyValStore(object):
       recipe['name'] = name
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
       recipe['summary'] = d(self._redis.get(self._key_recipe(name, 'summary')))
-      recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
-      recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
       recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
+      if verbose:
+        recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
+        recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
       response.append(recipe)
     return response
+
+  def recipe(self, name):
+    if not self._redis.get(self._key_recipe(name, 'title')):
+      return {'error': 'recipe not found'}
+    recipe = {}
+    recipe['name'] = name
+    recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
+    recipe['summary'] = d(self._redis.get(self._key_recipe(name, 'summary')))
+    recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
+    recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
+    recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
+    return recipe
 
 

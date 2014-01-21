@@ -24,7 +24,7 @@ keyval = KeyValStore(redis.StrictRedis(
 
 @app.route('/api/recipe/<name>')
 def recipe(name):
-  return ''
+  return je.encode(keyval.recipe(name))
 
 @app.route('/api/list')
 def list():

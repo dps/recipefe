@@ -65,5 +65,9 @@ Steps
 ![juicing the lime](imgs-super-simple-guacamole/step-3-lime.jpg "Juicing the lime")
 4. Add the cilantro.
 5. Mix thoroughly.
+
+Serving
+-------
+Great with tortilla chips, in tacos and burritos.
 """
   print parse_recipe_markdown(doc, {'name': 'super-simple-guacamole'}, 'http://www/')
