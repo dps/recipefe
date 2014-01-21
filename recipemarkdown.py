@@ -19,7 +19,7 @@ def parse_recipe_markdown(md, obj, base_url):
   if soup.img:
     obj['img'] = base_url + soup.img.get('src')
   parsing = 'title'
-  if soup.h1.string:
+  if soup.h1 and soup.h1.string:
     obj['title'] = soup.h1.string
     node = soup.h1.nextSibling
     parsing = 'summary'
@@ -37,7 +37,8 @@ def parse_recipe_markdown(md, obj, base_url):
         elif node.name == 'ol':
           obj[parsing] = parse_list(node, base_url)
       node = node.nextSibling
-
+  if not obj.has_key('ingredients') or not obj.has_key('steps') or not obj.has_key('title'):
+    obj['error'] = 'Some required sections missing - must have title, ingredients, steps'
 
   return obj
 
