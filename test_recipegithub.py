@@ -75,6 +75,38 @@ Steps
 -----
 1. Knock Knock
 """
+SEARCH = """
+{
+  "total_count": 1,
+  "items": [
+    {
+      "name": "recipe-super-simple-guacamole.md",
+      "path": "recipe-super-simple-guacamole.md",
+      "sha": "c0716101598f4f434da91ec96f1d2219879aeb5b",
+      "url": "https://api.github.com/repositories/16055826/contents/recipe-super-simple-guacamole.md?ref=ef55297fc9d743b17d9aae467551bb1337cc9fca",
+      "git_url": "https://api.github.com/repositories/16055826/git/blobs/c0716101598f4f434da91ec96f1d2219879aeb5b",
+      "html_url": "https://github.com/dps/recipes/blob/ef55297fc9d743b17d9aae467551bb1337cc9fca/recipe-super-simple-guacamole.md",
+      "repository": {
+        "id": 16055826,
+        "name": "recipes",
+        "full_name": "dps/recipes",
+        "owner": {
+          "login": "dps",
+          "id": 237355,
+          "gravatar_id": "ca0bcee0ee45afe52973d86721b72a93",
+          "url": "https://api.github.com/users/dps"
+        },
+        "private": false,
+        "html_url": "https://github.com/dps/recipes",
+        "description": "recipes",
+        "fork": false,
+        "url": "https://api.github.com/repos/dps/recipes"
+      },
+      "score": 2.1095433
+    }
+  ]
+}
+"""
 
 class FakeResponse(object):
 
@@ -106,11 +138,16 @@ def test_list():
   fr.set_next_reponse(FakeResponse(True, CONTENTS))
   ghb = GitHubBridge('https://api.github.com/repos/test/test', fr)
   result = ghb.list()
+  assert 'https://api.github.com/repos/test/test/contents' == fr._requested[0][0]
+  assert 'https://api.github.com/repos/dps/recipes/contents/recipe-beef-brisket-chili.md?ref=master' == fr._requested[1][0]
   assert len(result) == 1
   assert result[0]['title'] == 'Silly Test recipe'
 
-def test_recipe():
-  pass
-
 def test_search():
-  pass
+  fr = FakeRequests()
+  fr.set_next_reponse(FakeResponse(True, SEARCH))
+  ghb = GitHubBridge('https://api.github.com/repos/test/test', fr)
+  result = ghb.search('test!')
+  assert fr._requested[0][0].find('q=test%21') >= 0 #%21 is ! url encoded
+  assert result[0]['score'] == 2.1095433
+  assert result[0]['name'] == 'recipe-super-simple-guacamole.md'
