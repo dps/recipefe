@@ -14,7 +14,7 @@ pubkeyval = KeyValStore(redis.StrictRedis(
     host='spadefish.redistogo.com', 
     port=9148, 
     db=0,
-    password=os.environ('REDISKEY')),
+    password=os.environ['REDISKEY']),
     'recipefe')
 
 GIT_REPO = 'https://api.github.com/repos/dps/recipes'
