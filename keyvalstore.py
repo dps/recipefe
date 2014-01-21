@@ -13,7 +13,10 @@ def e(obj):
   return je.encode(obj)
 
 def d(jso):
-  return jd.decode(jso)
+  if jso:
+    return jd.decode(jso)
+  else:
+    return ''
 
 class KeyValStore(object):
 
@@ -34,6 +37,8 @@ class KeyValStore(object):
         self._redis.set(self._key_recipe(name, 'summary'), e(recipe['summary']))
         self._redis.set(self._key_recipe(name, 'ingredients'), e(recipe['ingredients']))
         self._redis.set(self._key_recipe(name, 'steps'), e(recipe['steps']))
+        if recipe.has_key('serving'):
+          self._redis.set(self._key_recipe(name, 'serving'), e(recipe['serving']))
         self._redis.set(self._key_recipe(name, 'img'), recipe['img'])
       self._redis.expire(self._instance + ':list', ONE_DAY)
     response = []
@@ -46,6 +51,7 @@ class KeyValStore(object):
       if verbose:
         recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
         recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
+        recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
       response.append(recipe)
     return response
 
@@ -58,6 +64,7 @@ class KeyValStore(object):
     recipe['summary'] = d(self._redis.get(self._key_recipe(name, 'summary')))
     recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
     recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
+    recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
     recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
     return recipe
 
