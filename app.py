@@ -2,7 +2,7 @@ import json
 import os
 import redis
 import requests
-from flask import Flask, Response, send_file
+from flask import Flask, Response, send_file, request
 from keyvalstore import KeyValStore
 from recipegithub import GitHubBridge
 
@@ -30,5 +30,10 @@ def recipe(name):
 def list():
   response = keyval.list()
   return je.encode(response)
+
+@app.route('/api/search')
+def search():
+  q = request.args.get('q')
+  return je.encode(keyval.search(q))
 
 
