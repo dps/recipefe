@@ -1,4 +1,3 @@
-import json
 from recipemarkdown import parse_recipe_markdown
 
 class GitHubBridge(object):
@@ -20,11 +19,16 @@ class GitHubBridge(object):
   def _handle_recipe(self, item):
     obj = {}
     obj['name'] = item['name']
-    url = obj['url']
+    url = item['url']
     r = self._requests.get(url, headers={"Accept": "application/vnd.github.3.raw"})
     if r.ok:
       markdown = r.text
-      obj = parse_recipe_markdown(markdown, obj, url)
+      obj = parse_recipe_markdown(markdown, obj, self._raw_base_url())
+    return obj
+
+  def _raw_base_url(self):
+    return self._api_base.replace(
+        'api.github.com', 'github.com').replace('repos/', '') + '/raw/master/'
 
 
 
