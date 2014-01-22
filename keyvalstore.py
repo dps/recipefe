@@ -34,12 +34,14 @@ class KeyValStore(object):
         name = recipe['name']
         self._redis.sadd(self._instance + ':list', name)
         self._redis.set(self._key_recipe(name, 'title'), recipe['title'])
-        self._redis.set(self._key_recipe(name, 'summary'), e(recipe['summary']))
         self._redis.set(self._key_recipe(name, 'ingredients'), e(recipe['ingredients']))
         self._redis.set(self._key_recipe(name, 'steps'), e(recipe['steps']))
         if recipe.has_key('serving'):
           serving = '\n'.join(recipe['serving'])
           self._redis.set(self._key_recipe(name, 'serving'), e(serving))
+        if recipe.has_key('summary'):
+          serving = '\n'.join(recipe['summary'])
+          self._redis.set(self._key_recipe(name, 'summary'), e(summary))
         if recipe.has_key('img'):
           self._redis.set(self._key_recipe(name, 'img'), recipe['img'])
       self._redis.expire(self._instance + ':list', ONE_DAY)
