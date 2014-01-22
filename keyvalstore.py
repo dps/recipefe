@@ -38,8 +38,10 @@ class KeyValStore(object):
         self._redis.set(self._key_recipe(name, 'ingredients'), e(recipe['ingredients']))
         self._redis.set(self._key_recipe(name, 'steps'), e(recipe['steps']))
         if recipe.has_key('serving'):
-          self._redis.set(self._key_recipe(name, 'serving'), e(recipe['serving']))
-        self._redis.set(self._key_recipe(name, 'img'), recipe['img'])
+          serving = '\n'.join(recipe['serving'])
+          self._redis.set(self._key_recipe(name, 'serving'), e(serving))
+        if recipe.has_key('img'):
+          self._redis.set(self._key_recipe(name, 'img'), recipe['img'])
       self._redis.expire(self._instance + ':list', ONE_DAY)
     response = []
     for name in self._redis.smembers(self._instance + ':list'):
@@ -47,7 +49,8 @@ class KeyValStore(object):
       recipe['name'] = name
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
       recipe['summary'] = d(self._redis.get(self._key_recipe(name, 'summary')))
-      recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
+      if self._redis.exists(self._key_recipe(name, 'img')):
+        recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
       if verbose:
         recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
         recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
