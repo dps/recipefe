@@ -26,7 +26,7 @@ class GitHubBridge(object):
       contents = r.json()
       if contents['total_count'] > 0:
         for item in contents['items']:
-          if item['name'].startswith('recipe'):
+          if item['name'].startswith('recipe-'):
             response.append({'name': item['name'], 'score': item['score']})
     return response
 

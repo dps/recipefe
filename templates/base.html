@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenSource Chef | {% block title %}{% endblock %}</title>
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/foundation.css" />
+    <script src="/static/js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+
+<div class="contain-to-grid sticky">
+  <nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="/">OpenSource Chef</a></h1>
+    </li>
+  </ul>
+
+
+  <section class="top-bar-section">
+    <ul class="right">
+      <li class="has-form">
+        <form action="/search" method="get">
+        <div class="row collapse" style="width: 400px;">
+          <div class="large-9 small-9 columns">
+            <input style="height: 2rem;" name ="q" type="text" placeholder="Find recipe, ingredient">
+          </div>
+          <div class="large-3 small-3 columns">
+            <a href="#" class="button expand">Search</a>
+          </div>
+        </div>
+      </form>
+      </li>
+    </ul>
+  </section>
+</nav>
+</div>
+
+{% block content %}{% endblock %}
+
+{% block hack %}{% endblock %}
+
+    <div class="footer row" style="margin-top: 6em;">
+      <div class="small-10 push-1 columns">
+        <div class="">
+          <h5>About OpenSource Chef</h5>
+          <p>Cooking lorem ipsum doler sit hipstit.</p>
+          {% block debug %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

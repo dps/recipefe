@@ -2,7 +2,7 @@ import json
 import os
 import redis
 import requests
-from flask import Flask, Response, send_file, request
+from flask import Flask, Response, send_file, request, render_template
 from keyvalstore import KeyValStore
 from recipegithub import GitHubBridge
 
@@ -23,17 +23,31 @@ keyval = KeyValStore(redis.StrictRedis(
     github)
 
 @app.route('/api/recipe/<name>')
-def recipe(name):
+def recipeapi(name):
   return je.encode(keyval.recipe(name))
 
 @app.route('/api/list')
-def list():
+def listapi():
   response = keyval.list()
   return je.encode(response)
 
 @app.route('/api/search')
-def search():
+def searchapi():
   q = request.args.get('q')
   return je.encode(keyval.search(q))
 
+@app.route('/')
+def index():
+  recipes = keyval.list()
+  return render_template('index.html', recipes=recipes)
 
+@app.route('/recipe/<name>')
+def recipe(name):
+  recipe = keyval.recipe(name)
+  return render_template('recipe.html', recipe=recipe)
+
+@app.route('/search')
+def search():
+  q = request.args.get('q')
+  results = keyval.search(q)
+  return render_template('search.html', results=results, q=q)

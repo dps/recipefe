@@ -81,7 +81,7 @@ class KeyValStore(object):
       recipe['name'] = name
       recipe['score'] = result['score']
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
-      recipe['summary'] = d(self._redis.get(self._key_recipe(name, 'summary')))
+      recipe['summary'] = self._redis.get(self._key_recipe(name, 'summary'))
       #recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
       #recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
       #recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
