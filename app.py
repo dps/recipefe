@@ -7,7 +7,7 @@ from keyvalstore import KeyValStore
 from recipegithub import GitHubBridge
 
 app = Flask(__name__)
-app.debug = True
+app.debug = True #hup
 
 GIT_REPO = 'https://api.github.com/repos/dps/recipes'
 
