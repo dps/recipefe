@@ -28,17 +28,21 @@ def recipeapi(name):
 
 @app.route('/api/list')
 def listapi():
-  response = keyval.list()
+  limit = request.args.get('limit')
+  page = request.args.get('page')
+  response = keyval.list(page=int(page), limit=int(limit))
   return je.encode(response)
 
 @app.route('/api/search')
 def searchapi():
+  limit = request.args.get('limit')
+  page = request.args.get('page')
   q = request.args.get('q')
-  return je.encode(keyval.search(q))
+  return je.encode(keyval.search(q, page=int(page), limit=int(limit)))
 
 @app.route('/')
 def index():
-  recipes = keyval.list()
+  recipes = keyval.list()['recipes']
   return render_template('index.html', recipes=recipes)
 
 @app.route('/recipe/<name>')
@@ -49,5 +53,5 @@ def recipe(name):
 @app.route('/search')
 def search():
   q = request.args.get('q')
-  results = keyval.search(q)
+  results = keyval.search(q)['recipes']
   return render_template('search.html', results=results, q=q)

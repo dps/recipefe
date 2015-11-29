@@ -28,7 +28,7 @@ class KeyValStore(object):
   def _key_recipe(self, recipe, key):
   	return self._instance + ':recipe:' + str(recipe) + ':' + key
 
-  def list(self, verbose=False):
+  def list(self, verbose=False, limit=None, page=None):
     if not self._redis.exists(self._instance + ':list'):
       for recipe in self._ghb.list():
         name = recipe['name']
@@ -44,8 +44,13 @@ class KeyValStore(object):
         if recipe.has_key('img'):
           self._redis.set(self._key_recipe(name, 'img'), recipe['img'])
       self._redis.expire(self._instance + ':list', ONE_DAY)
-    response = []
-    for name in self._redis.smembers(self._instance + ':list'):
+    response = {}
+    recipes = []
+    result = list(self._redis.smembers(self._instance + ':list'))
+    response['total'] = len(result)
+    if limit != None:
+      result = result[(page-1)*limit:(page*limit)]
+    for name in result:
       recipe = {}
       recipe['name'] = name
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
@@ -56,7 +61,8 @@ class KeyValStore(object):
         recipe['ingredients'] = d(self._redis.get(self._key_recipe(name, 'ingredients')))
         recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
         recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
-      response.append(recipe)
+      recipes.append(recipe)
+    response['recipes'] = recipes
     return response
 
   def recipe(self, name):
@@ -72,9 +78,14 @@ class KeyValStore(object):
     recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
     return recipe
 
-  def search(self, q):
-    response = []
+  def search(self, q, limit=None, page=None):
+    response = {}
+    recipes = []
     results = self._ghb.search(q)
+    response['total'] = len(results)
+    if limit != None:
+      results = results[(page-1)*limit:(page*limit)]
+    response['q'] = q
     for result in results:
       name = result['name']
       recipe = {}
@@ -86,6 +97,7 @@ class KeyValStore(object):
       #recipe['steps'] = d(self._redis.get(self._key_recipe(name, 'steps')))
       #recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
       recipe['img'] = self._redis.get(self._key_recipe(name, 'img'))
-      response.append(recipe)
+      recipes.append(recipe)
+    response['recipes'] = recipes
     return response
 
