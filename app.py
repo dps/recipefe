@@ -29,8 +29,12 @@ def recipeapi(name):
 @app.route('/api/list')
 def listapi():
   limit = request.args.get('limit')
+  if limit != None:
+    limit = int(limit)
   page = request.args.get('page')
-  response = keyval.list(page=int(page), limit=int(limit))
+  if page != None:
+    page = int(page)
+  response = keyval.list(page=page, limit=limit)
   return je.encode(response)
 
 @app.route('/api/search')
