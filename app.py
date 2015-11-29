@@ -41,8 +41,13 @@ def listapi():
 def searchapi():
   limit = request.args.get('limit')
   page = request.args.get('page')
+  if limit != None:
+    limit = int(limit)
+  page = request.args.get('page')
+  if page != None:
+    page = int(page)
   q = request.args.get('q')
-  return je.encode(keyval.search(q, page=int(page), limit=int(limit)))
+  return je.encode(keyval.search(q, page=page, limit=limit))
 
 @app.route('/')
 def index():
