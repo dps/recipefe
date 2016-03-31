@@ -14,7 +14,7 @@
   <div class="large-12 columns">
     <h1 class="sitefont" style="margin: 1em 0 1em 0;">{{ recipe.title }}</h1>
     {% if recipe.img %}
-    <img class="th" src="http://thumbor.apps.davidsingleton.org/unsafe/1024x300/{{ recipe.img }}" class="radius" />
+    <img class="th" src="http://thumbor.us.davidsingleton.org/unsafe/1024x300/{{ recipe.img }}" class="radius" />
     {% endif %}
   </div>
 </div>
@@ -35,7 +35,7 @@
       {% for item in recipe.ingredients %}
       <li style="margin: 1em 0 1em 0;"><h5>{{ item.text }}
       	{% if item.img %}
-      	<br/><img class="th" src="http://thumbor.apps.davidsingleton.org/unsafe/150x150/{{ item.img }}" />
+      	<br/><img class="th" src="http://thumbor.us.davidsingleton.org/unsafe/150x150/{{ item.img }}" />
       	{% endif %}
       	</h5>
       </li>
@@ -48,7 +48,7 @@
     {% for step in recipe.steps %}
       <li style="margin: 1em 0 3em 0;"><h4>{{ step.text }}
       	{% if step.img %}
-      	<br/><img class="th" src="http://thumbor.apps.davidsingleton.org/unsafe/300x150/{{ step.img }}" />
+      	<br/><img class="th" src="http://thumbor.us.davidsingleton.org/unsafe/300x150/{{ step.img }}" />
       	{% endif %}
       	</h4>
       </li>
