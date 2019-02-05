@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OpenSource Chef | {% block title %}{% endblock %}</title>
+    <title>recipes | {% block title %}{% endblock %}</title>
     <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/static/css/foundation.css" />
     <script src="/static/js/vendor/modernizr.js"></script>
@@ -14,7 +14,7 @@
   <nav class="top-bar" data-topbar>
   <ul class="title-area">
     <li class="name">
-      <h1><a href="/">OpenSource Chef</a></h1>
+      <h1><a href="/">recipes.singleton.io</a></h1>
     </li>
   </ul>
 
@@ -28,7 +28,7 @@
             <input style="height: 2rem;" name ="q" type="text" placeholder="Find recipe, ingredient">
           </div>
           <div class="large-3 small-3 columns">
-            <a href="#" class="button expand">Search</a>
+            <input class="button expand" type="submit" value="Search">
           </div>
         </div>
       </form>
@@ -45,9 +45,6 @@
     <div class="footer row" style="margin-top: 6em;">
       <div class="small-10 push-1 columns">
         <div class="">
-          <h5>About OpenSource Chef</h5>
-          <p>Cooking lorem ipsum doler sit hipstit.</p>
-          {% block debug %}{% endblock %}
         </div>
       </div>
     </div>

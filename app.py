@@ -54,7 +54,7 @@ def index():
   recipes = keyval.list()['recipes']
   return render_template('index.html', recipes=recipes)
 
-@app.route('/recipe/<name>')
+@app.route('/recipes/<name>')
 def recipe(name):
   recipe = keyval.recipe(name)
   return render_template('recipe.html', recipe=recipe)

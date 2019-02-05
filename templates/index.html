@@ -5,19 +5,19 @@
 {% if recipes %}
 <div class="row">
   <div class="large-12 columns">
-    <h1 class="sitefont" style="margin: 1em 0 1em 0;">Some of our favorites</h1>
+    <h1 class="sitefont" style="margin: 1em 0 1em 0;">Some favorites</h1>
   </div>
 </div>
 
 <div class="row">
   <div class="large-12 columns">
-<ul data-orbit>
+<ul <!--data-orbit-->
 {% for result in recipes %}
 {% if result.img %}
-<a href="/recipe/{{ result.name }}">
-<li>
-  	<img src="http://thumbor.us.davidsingleton.org/unsafe/1000x300/{{ result.img }}" />
-  <div class="orbit-caption">
+<a href="/recipes/{{ result.name }}">
+<li style="list-style:none;background-color: rgb(246, 249, 253);padding: 1em;margin-bottom: 1em;border-radius: 0.5em;">
+  	<img src="http://thumbor.us.davidsingleton.org/unsafe/1000x100/{{ result.img }}" style="border-radius: 0.5em;"/>
+  <div class="ofrbit-caption">
   	<h3 class="sitefont">{{ result.title }}</h3>
   	<h5>{{ result.summary }}</h5>
   </div>
