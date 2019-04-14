@@ -2,7 +2,7 @@ import json
 import os
 import redis
 import requests
-from flask import Flask, Response, send_file, request, render_template
+from flask import Flask, Response, send_from_directory, request, render_template
 from keyvalstore import KeyValStore
 from recipegithub import GitHubBridge
 
