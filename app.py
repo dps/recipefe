@@ -64,3 +64,7 @@ def search():
   q = request.args.get('q')
   results = keyval.search(q)['recipes']
   return render_template('search.html', results=results, q=q)
+
+@app.route('/loaderio-3300b64625d269d9e5be7db5b4bf1103.txt')
+def loaderio():
+    return send_from_directory('./static', 'loaderio-3300b64625d269d9e5be7db5b4bf1103.txt')
