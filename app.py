@@ -16,7 +16,7 @@ github = GitHubBridge(GIT_REPO, requests)
 
 keyval = KeyValStore(redis.StrictRedis(
     host=os.environ['REDISHOST'], 
-    port=6379, 
+    port=int(os.environ['REDISPORT']), 
     db=0,
     password=os.environ['REDISKEY']),
     'recipefe',
