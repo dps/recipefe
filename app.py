@@ -15,8 +15,8 @@ je = json.JSONEncoder()
 github = GitHubBridge(GIT_REPO, requests)
 
 keyval = KeyValStore(redis.StrictRedis(
-    host='spadefish.redistogo.com', 
-    port=9148, 
+    host=os.environ['REDISHOST'], 
+    port=6379, 
     db=0,
     password=os.environ['REDISKEY']),
     'recipefe',
