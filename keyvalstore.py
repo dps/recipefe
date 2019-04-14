@@ -24,11 +24,14 @@ class KeyValStore(object):
     self._redis = redis
     self._instance = instance
     self._ghb = github_bridge
+    self._memoized_list = None
 
   def _key_recipe(self, recipe, key):
   	return self._instance + ':recipe:' + str(recipe) + ':' + key
 
   def list(self, verbose=False, limit=None, page=None):
+    if self._memoized_list != None:
+      return self._memoized_list
     if not self._redis.exists(self._instance + ':list'):
       for recipe in self._ghb.list():
         name = recipe['name']
@@ -63,6 +66,7 @@ class KeyValStore(object):
         recipe['serving'] = d(self._redis.get(self._key_recipe(name, 'serving')))
       recipes.append(recipe)
     response['recipes'] = recipes
+    self._memoized_list = response
     return response
 
   def recipe(self, name):
