@@ -53,8 +53,9 @@ class KeyValStore(object):
     response['total'] = len(result)
     if limit != None:
       result = result[(page-1)*limit:(page*limit)]
-    for name in result:
+    for i, name in enumerate(result):
       recipe = {}
+      recipe['id'] = i
       recipe['name'] = name
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
       recipe['summary'] = self._redis.get(self._key_recipe(name, 'summary'))
@@ -90,9 +91,10 @@ class KeyValStore(object):
     if limit != None:
       results = results[(page-1)*limit:(page*limit)]
     response['q'] = q
-    for result in results:
+    for i, result in enumerate(results):
       name = result['name']
       recipe = {}
+      recipe['id'] = i
       recipe['name'] = name
       recipe['score'] = result['score']
       recipe['title'] = self._redis.get(self._key_recipe(name, 'title'))
